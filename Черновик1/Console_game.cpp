@@ -1,0 +1,391 @@
+#include <iostream>
+#include <random>
+#include <string.h>
+#include <stdio.h>
+#include <conio.h>
+
+using namespace std;
+random_device Rand;
+
+void create_map(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11], int size)
+{
+	for (int i = 0; i < 1; i++)
+	{
+		for (int j = 1; j < size; j++)
+		{
+			mas_player[i][j] = j + 48;
+			mas_player[j][i] = j + 64;
+			mas_points[i][j] = j + 48;
+			mas_points[j][i] = j + 64;
+			mas_computer[i][j] = j + 48;
+			mas_computer[j][i] = j + 64;
+		}
+	}
+	mas_player[0][10] = 48;	
+	mas_points[0][10] = 48;	
+	mas_computer[0][10] = 48;
+	for (int i = 1; i < size; i++)
+	{
+		for (int j = 1; j < size; j++)
+		{
+			mas_player[i][j] = '~';
+			mas_points[i][j] = '~';
+			mas_computer[i][j] = '~';
+		}
+	}
+}
+
+void print_map(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11], int size)
+{
+	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_player[j][i] << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl << "+-+-+- Карта попаданий -+-+-+" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты врага
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_points[j][i] << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl;
+	cout << "Лодки врага(подсказка)" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты врага
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_computer[j][i] << ' ';
+		}
+		cout << endl;
+	}
+}
+
+void print_map(char mas_player[11][11], int size)
+{
+	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_player[j][i] << ' ';
+		}
+		cout << endl;
+	}
+}
+
+void computer_boat(char mas_computer[11][11])
+{
+	int x_comp = 0, y_comp = 0;
+	bool direction = false;
+	//1-st boat
+	for (int c = 0; c < 4; c++)
+	{
+		x_comp = Rand() % 10 + 1;
+		y_comp = Rand() % 10 + 1;
+		mas_computer[x_comp][y_comp] += '#';
+	}
+	//2-st boat
+	for (int c = 0; c < 3; c++)
+	{
+		direction = Rand() % 2;
+		x_comp = Rand() % 10 + 1;
+		y_comp = Rand() % 10 + 1;
+		for (int i = x_comp, j = y_comp; j < y_comp + 2; j++)
+		{
+			if (direction == true)
+			{
+				if (mas_computer[i][j] != '#')
+				{
+					mas_computer[i][j] += '#';
+				}
+				else
+				{
+					mas_computer[j][i] += '#';
+				}
+			}
+			else if (direction == false)
+			{
+				if (mas_computer[i][j] != '#')
+				{
+					mas_computer[j][i] += '#';
+				}
+				else
+				{
+					mas_computer[j][i] += '#';
+				}
+			}
+		}
+	}
+	//3-rd boat
+	for (int c = 0; c < 2; c++)
+	{
+		direction = Rand() % 2;
+		x_comp = Rand() % 10 + 1;
+		y_comp = Rand() % 10 + 1;
+		for (int i = x_comp, j = y_comp; j < y_comp + 3; j++)
+		{
+			if (direction == true)
+			{
+				if (mas_computer[i][j] != '#')
+				{
+					mas_computer[i][j] += '#';
+				}
+				else
+				{
+					mas_computer[j][i] += '#';
+				}
+			}
+			else if (direction == false)
+			{
+				if (mas_computer[i][j] != '#')
+				{
+					mas_computer[j][i] += '#';
+				}
+				else
+				{
+					mas_computer[j][i] += '#';
+				}
+			}
+		}
+	}
+	//4-rd boat
+	direction = Rand() % 2;
+	x_comp = Rand() % 10 + 1;
+	y_comp = Rand() % 10 + 1;
+	for (int i = x_comp, j = y_comp; j < y_comp + 4; j++)
+	{
+		if (direction == true)
+		{
+			if (mas_computer[i][j] != '#')
+			{
+				mas_computer[i][j] += '#';
+			}
+			else
+			{
+				mas_computer[j][i] += '#';
+			}
+		}
+		else if (direction == false)
+		{
+			if (mas_computer[i][j] != '#')
+			{
+				mas_computer[j][i] += '#';
+			}
+			else
+			{
+				mas_computer[j][i] += '#';
+			}
+		}
+	}
+}
+
+void add_boat(char mas_player[11][11])
+{
+	int x = 0, y = 0;
+	bool direction = false;
+	//расстановка 1-но палубной лодки
+	for (int c = 0; c < 4; c++)
+	{
+		cout << "Введите координаты 1-палубной лодки" << endl;
+		cout << "Введите номер буквы: ";
+		cin >> x;
+		cout << "Введите номер стрки: ";
+		cin >> y;
+		mas_player[x][y] = '#';
+		print_map(mas_player,11);
+	}
+	system("cls");
+	//расстановка 2ух палубной лодки
+	for (int c = 0; c < 3; c++)
+	{
+		cout << "Введите направление лодки(0-слева направо, 1-сверху вниз): ";
+		cin >> direction;
+		cout << "Введите координаты 2-палубной лодки" << endl;
+		cout << "Введите номер буквы: ";
+		cin >> x;
+		cout << "Введите номер стрки: ";
+		cin >> y;
+		for (int i = x, j = y; j < y + 2; j++)
+		{
+			if (direction == true)
+			{
+				if (mas_player[i][j] != '#')
+				{
+					mas_player[i][j] = '#';
+				}
+				else
+				{
+					mas_player[j][i] = '#';
+				}
+			}
+			else if (direction == false)
+			{
+				if (mas_player[i][j] != '#')
+				{
+					mas_player[j][i] = '#';
+				}
+				else
+				{
+					mas_player[j][i] = '#';
+				}
+			}
+		}
+		print_map(mas_player, 11);
+	}
+	system("cls");
+	//расстановка 3ех палубной лодки
+	for (int c = 0; c < 2; c++)
+	{
+		cout << "Введите направление лодки(0-слева направо, 1-сверху вниз): ";
+		cin >> direction;
+		cout << "Введите координаты 3-палубной лодки" << endl;
+		cout << "Введите номер буквы: ";
+		cin >> x;
+		cout << "Введите номер стрки: ";
+		cin >> y;
+		for (int i = x, j = y; j < y + 3; j++)
+		{
+			if (direction == true)
+			{
+				if (mas_player[i][j] != '#')
+				{
+					mas_player[i][j] = '#';
+				}
+				else
+				{
+					mas_player[j][i] = '#';
+				}
+			}
+			else if (direction == false)
+			{
+				if (mas_player[j][i] != '#')
+				{
+					mas_player[j][i] = '#';
+				}
+				else
+				{
+					mas_player[j][i] = '#';
+				}
+			}
+		}
+		print_map(mas_player, 11);
+	}
+	system("cls");
+	//расставление 4ех палубной лодки
+	cout << "Введите направление лодки(0-слева направо, 1-сверху вниз): ";
+	cin >> direction;
+	cout << "Введите координаты 4-палубной лодки" << endl;
+	cout << "Введите номер буквы: ";
+	cin >> x;
+	cout << "Введите номер стрки: ";
+	cin >> y;
+	for (int i = x, j = y; j < y + 4; j++)
+	{
+		if (direction == true)
+		{
+			if (mas_player[i][j] != '#')
+			{
+				mas_player[i][j] = '#';
+			}
+			else
+			{
+				mas_player[j][i] = '#';
+			}
+		}
+		else if (direction == false)
+		{
+			if (mas_player[i][j] != '#')
+			{
+				mas_player[j][i] = '#';
+			}
+			else
+			{
+				mas_player[j][i] = '#';
+			}
+		}
+	}
+}
+
+void start_game(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11])
+{
+	int map_size = 11;
+	int x = 0, y = 0;
+	int x_comp = 0, y_comp = 0;
+	char voice = 7;
+	bool step = false;
+	while (true)
+	{
+		if (step == false) //Стрельба по цели player
+		{
+			cout << "Введите координаты цели" << endl;
+			cout << "Введите номер буквы: ";
+			cin >> x;
+			cout << "Введите номер стрки: ";
+			cin >> y;
+			if (mas_computer[x][y] == '#')
+			{
+				cout << "Есть пробитие!" << endl;
+				cout << voice;
+				mas_computer[x][y] = 164;
+				mas_points[x][y] = 164;
+				system("cls"); //сброс карты
+				print_map(mas_player, mas_points, mas_computer, map_size);
+			}
+			else
+			{
+				system("cls"); //сброс карты
+				cout << "Мимо!" << endl;
+				mas_points[x][y] = 'P';
+				print_map(mas_player, mas_points, mas_computer, map_size);
+			}
+			step = true;
+		}
+
+		if (step == true) //Стрельба по цели computer
+		{
+			x_comp = Rand() % 10+1;
+			y_comp = Rand() % 10+1;
+			if (mas_player[x_comp][y_comp] == '#')
+			{
+				cout << voice;
+				mas_player[x_comp][y_comp] = 164;
+			}
+			else
+			{
+				mas_player[x_comp][y_comp] = 'E';
+			}
+			step = false;
+		}
+	}
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+
+	const int map_size = 11;
+
+	char mas_player[map_size][map_size] = {};
+	char mas_computer[map_size][map_size] = {};
+	char mas_points[map_size][map_size] = {};
+	
+	/*заполнение карты*/
+	create_map(mas_player, mas_points, mas_computer, map_size);
+	//Вывод лодок
+	add_boat(mas_player);
+	computer_boat(mas_computer);
+	//вывод карты
+	print_map(mas_player, mas_points, mas_computer, map_size);
+	//Начало игры 
+	start_game(mas_player, mas_points, mas_computer);
+
+	system("pause");
+	return 0;
+}
