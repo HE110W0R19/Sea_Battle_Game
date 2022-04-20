@@ -1,6 +1,5 @@
 #include <iostream>
 #include <random>
-#include <string.h>
 #include <stdio.h>
 #include <conio.h>
 
