@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <ctime>
 #include <stdio.h>
 #include <conio.h>
 
