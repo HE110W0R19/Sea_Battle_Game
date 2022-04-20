@@ -7,7 +7,7 @@
 using namespace std;
 random_device Rand;
 
-void create_map(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11], int size)
+void create_map(char**& mas_player, char**& mas_points, char**& mas_computer, int size)
 {
 	for (int i = 0; i < 1; i++)
 	{
@@ -35,7 +35,7 @@ void create_map(char mas_player[11][11], char mas_points[11][11], char mas_compu
 	}
 }
 
-void print_map(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11], int size)
+void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, int size)
 {
 	cout << "+-+-+- Ваша карта -+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты
@@ -67,7 +67,7 @@ void print_map(char mas_player[11][11], char mas_points[11][11], char mas_comput
 	}
 }
 
-void print_map(char mas_player[11][11], int size)
+void print_map(char**& mas_player, int size)
 {
 	cout << "+-+-+- Ваша карта -+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты
@@ -80,7 +80,30 @@ void print_map(char mas_player[11][11], int size)
 	}
 }
 
-void computer_boat(char mas_computer[11][11])
+void print_map(char**& mas_player, char**& mas_points, int size)
+{
+	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_player[j][i] << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl << "+-+-+- Карта попаданий -+-+-+" << endl;
+	for (int i = 0; i < size; i++) //Вывод карты врага
+	{
+		for (int j = 0; j < size; j++)
+		{
+			cout << mas_points[j][i] << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+void computer_boat(char**& mas_computer)
 {
 	int x_comp = 0, y_comp = 0;
 	bool direction = false;
@@ -186,7 +209,7 @@ void computer_boat(char mas_computer[11][11])
 	}
 }
 
-void add_boat(char mas_player[11][11])
+void add_boat(char**& mas_player)
 {
 	int x = 0, y = 0;
 	bool direction = false;
@@ -313,7 +336,7 @@ void add_boat(char mas_player[11][11])
 	}
 }
 
-void start_game(char mas_player[11][11], char mas_points[11][11], char mas_computer[11][11])
+void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_computer)
 {
 	int map_size = 11;
 	int x = 0, y = 0;
@@ -333,8 +356,8 @@ void start_game(char mas_player[11][11], char mas_points[11][11], char mas_compu
 			{
 				cout << "Есть пробитие!" << endl;
 				cout << voice;
-				mas_computer[x][y] = 164;
-				mas_points[x][y] = 164;
+				mas_computer[x][y] += 164;
+				mas_points[x][y] += 164;
 				system("cls"); //сброс карты
 				print_map(mas_player, mas_points, mas_computer, map_size);
 			}
@@ -366,15 +389,89 @@ void start_game(char mas_player[11][11], char mas_points[11][11], char mas_compu
 	}
 }
 
+void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_player_2, char**& mas_points_2)
+{
+	int map_size = 11;
+	int x = 0, y = 0;
+	char voice = 7;
+	bool step = false;
+	while (true)
+	{
+		if (step == false) //Стрельба по цели player_1
+		{
+			cout << "========== ИГРОК 1 ==========" << endl;
+			cout << "Введите координаты цели" << endl;
+			cout << "Введите номер буквы: ";
+			cin >> x;
+			cout << "Введите номер стрки: ";
+			cin >> y;
+			if (mas_player_2[x][y] == '#')
+			{
+				cout << "Есть пробитие!" << endl;
+				cout << voice;
+				mas_player_2[x][y] += 164;
+				mas_points_1[x][y] += 164;
+				system("cls"); //сброс карты
+				print_map(mas_player_1, mas_points_1, map_size);
+			}
+			else
+			{
+				system("cls"); //сброс карты
+				cout << "Мимо!" << endl;
+				mas_points_1[x][y] = 'P';
+				print_map(mas_player_1, mas_points_1, map_size);
+			}
+			step = true;
+		}
+		if (step == true) //Стрельба по цели player_2
+		{
+			cout << "========== ИГРОК 2 ==========" << endl;
+			cout << "Введите координаты цели" << endl;
+			cout << "Введите номер буквы: ";
+			cin >> x;
+			cout << "Введите номер стрки: ";
+			cin >> y;
+			if (mas_player_1[x][y] == '#')
+			{
+				cout << "Есть пробитие!" << endl;
+				cout << voice;
+				mas_player_1[x][y] += 164;
+				mas_points_2[x][y] += 164;
+				system("cls"); //сброс карты
+				print_map(mas_player_2, mas_points_2, map_size);
+			}
+			else
+			{
+				system("cls"); //сброс карты
+				cout << "Мимо!" << endl;
+				mas_points_2[x][y] = 'P';
+				print_map(mas_player_2, mas_points_2, map_size);
+			}
+			step = false;
+		}
+	}
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
-
+	
+	int choise;
 	const int map_size = 11;
 
-	char mas_player[map_size][map_size] = {};
-	char mas_computer[map_size][map_size] = {};
-	char mas_points[map_size][map_size] = {};
+	char** mas_player = new char* [map_size]{};
+	char** mas_player_2 = new char* [map_size] {};
+	char** mas_computer = new char* [map_size]{};
+	char** mas_points = new char* [map_size]{};
+	char** mas_points_2 = new char* [map_size] {};
+	for (int i = 0; i < map_size; i++)
+	{
+		mas_player[i] = new char[map_size] {};
+		mas_player_2[i] = new char [map_size] {};
+		mas_computer[i] = new char[map_size] {};
+		mas_points[i] = new char[map_size] {};
+		mas_points_2[i] = new char[map_size] {};
+	}
 	
 	/*заполнение карты*/
 	create_map(mas_player, mas_points, mas_computer, map_size);
@@ -384,7 +481,44 @@ int main()
 	//вывод карты
 	print_map(mas_player, mas_points, mas_computer, map_size);
 	//Начало игры 
-	start_game(mas_player, mas_points, mas_computer);
+	start_game_vs_pc(mas_player, mas_points, mas_computer);
+	cout << "===============================================" << endl;
+	cout << "---          Морской бой 1vs1               ---" << endl;
+	cout << "---        Выберите режим игры:             ---" << endl;
+	cout << "---    1 - 1 на 1 (Два игрока)              ---" << endl;
+	cout << "---    2 - Одиночная игра(Против компютера) ---" << endl;
+	cout << "---    0 - Выход из игры                    ---" << endl;
+	cout << "===============================================" << endl;
+	cin >> choise;
+	switch (choise)
+	{
+	case 1:
+		create_map(mas_player, mas_points, mas_player_2, map_size);
+		cout << endl << "========== ИГРОК 1 ==========" << endl;
+		add_boat(mas_player);
+		cout << endl << "========== ИГРОК 2 ==========" << endl;
+		add_boat(mas_player_2);
+		start_game_1vs1(mas_player, mas_points, mas_player_2, mas_points_2);
+
+		break;
+	case 2:
+		create_map(mas_player, mas_points, mas_computer, map_size);
+		cout << "========== Добавление лодок ==========" << endl;
+		add_boat(mas_player);
+		computer_boat(mas_computer);
+		print_map(mas_player, mas_points, mas_computer, map_size);
+		start_game_vs_pc(mas_player, mas_points, mas_computer);
+		break;
+	case 0:
+		system("cls");
+		cout << "========== Good bye! ===========" << endl;
+		return 0;
+		break;
+	default:
+		return 0;
+		break;
+	}
+
 
 	system("pause");
 	return 0;
