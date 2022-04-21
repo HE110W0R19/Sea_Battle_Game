@@ -340,7 +340,7 @@ void add_boat(char**& mas_player)
 	}
 }
 
-bool winer_check(char**& mas_player, short int player_num)
+bool winer_check(char**& mas_player, char player_num)
 {
 	int counter = 0;
 	for (int i = 1; i < 11; i++)
@@ -372,7 +372,6 @@ void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_comput
 	int x = 0, y = 0;
 	int x_comp = 0, y_comp = 0;
 	char voice = 7;
-	bool winer = false;
 	bool step = false;
 	while (true)
 	{
@@ -391,12 +390,10 @@ void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_comput
 				mas_points[x][y] = 164;
 				system("cls"); //сброс карты
 				print_map(mas_player, mas_points, mas_computer, map_size);
-				winer_check(mas_computer, winer);
-				if (winer == true)
+				winer_check(mas_player, '1');
+				if (winer_check(mas_player, '1') != false)
 				{
-					system("cls");
-					cout << "========== Вы выйграли! ==========" << endl;
-					break;
+					return;
 				}
 				step = false;
 			}
@@ -418,12 +415,10 @@ void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_comput
 			{
 				cout << voice;
 				mas_player[x_comp][y_comp] = 164;
-				winer_check(mas_player, winer);
-				if (winer == true)
+				winer_check(mas_computer, '2');
+				if (winer_check(mas_computer, '2') != false)
 				{
-					system("cls");
-					cout << "========== Вы проиграли! ==========" << endl;
-					break;
+					return;
 				}
 				step = true;
 			}
@@ -462,8 +457,8 @@ void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_pla
 				mas_points_1[x][y] = 164;
 				system("cls"); //сброс карты
 				print_map(mas_player_1, mas_points_1, map_size);
-				winer_check(mas_player_2, 1);
-				if (winer_check(mas_player_2, 1)!=false)
+				winer_check(mas_player_2, '1');
+				if (winer_check(mas_player_2, '1') != false)
 				{
 					return;
 				}
@@ -498,8 +493,8 @@ void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_pla
 				mas_points_2[x][y] = 164;
 				system("cls"); //сброс карты
 				print_map(mas_player_2, mas_points_2, map_size);
-				winer_check(mas_player_1, 2);
-				if (!winer_check(mas_player_1, 2)!=false)
+				winer_check(mas_player_1, '2');
+				if (!winer_check(mas_player_1, '2') != false)
 				{
 					return;
 				}
