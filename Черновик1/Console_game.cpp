@@ -6,7 +6,7 @@
 
 using namespace std;
 random_device Rand;
-
+//заполнение карты
 void create_map(char**& mas_player, char**& mas_points, char**& mas_computer, char**& mas_points_2, short int size)
 {
 	for (int i = 0; i < 1; i++)
@@ -38,7 +38,7 @@ void create_map(char**& mas_player, char**& mas_points, char**& mas_computer, ch
 		}
 	}
 }
-
+//вывод карты при игре с компом
 void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, short int size)
 {
 	cout << "+-+-+- Ваша карта -+-+-+" << endl;
@@ -70,7 +70,7 @@ void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, sho
 		cout << endl;
 	}
 }
-
+//вывод карты при добавлении лодок
 void print_map(char**& mas_player, short int size)
 {
 	cout << "+-+-+- Ваша карта -+-+-+" << endl;
@@ -83,7 +83,7 @@ void print_map(char**& mas_player, short int size)
 		cout << endl;
 	}
 }
-
+//вывод карты при игре 1на1
 void print_map(char**& mas_player, char**& mas_points, short int size)
 {
 	cout << "+-+-+- Ваша карта -+-+-+" << endl;
@@ -106,7 +106,7 @@ void print_map(char**& mas_player, char**& mas_points, short int size)
 	}
 	cout << endl;
 }
-
+//добавление лодок компа
 void computer_boat(char**& mas_computer)
 {
 	int x_comp = 0, y_comp = 0;
@@ -124,6 +124,10 @@ void computer_boat(char**& mas_computer)
 		direction = Rand() % 2;
 		x_comp = Rand() % 10 + 1;
 		y_comp = Rand() % 10 + 1;
+		if (direction == false)
+		{
+			swap(x_comp, y_comp);
+		}
 		for (int i = x_comp, j = y_comp; j < y_comp + 2; j++)
 		{
 			if (direction == true)
@@ -156,6 +160,10 @@ void computer_boat(char**& mas_computer)
 		direction = Rand() % 2;
 		x_comp = Rand() % 10 + 1;
 		y_comp = Rand() % 10 + 1;
+		if (direction == false)
+		{
+			swap(x_comp, y_comp);
+		}
 		for (int i = x_comp, j = y_comp; j < y_comp + 3; j++)
 		{
 			if (direction == true)
@@ -186,6 +194,10 @@ void computer_boat(char**& mas_computer)
 	direction = Rand() % 2;
 	x_comp = Rand() % 10 + 1;
 	y_comp = Rand() % 10 + 1;
+	if (direction == false)
+	{
+		swap(x_comp, y_comp);
+	}
 	for (int i = x_comp, j = y_comp; j < y_comp + 4; j++)
 	{
 		if (direction == true)
@@ -212,7 +224,7 @@ void computer_boat(char**& mas_computer)
 		}
 	}
 }
-
+//добавление лодок игрока
 void add_boat(char**& mas_player)
 {
 	int x = 0, y = 0;
@@ -239,6 +251,10 @@ void add_boat(char**& mas_player)
 		cin >> x;
 		cout << "Введите номер стрки: ";
 		cin >> y;
+		if (direction == false)
+		{
+			swap(x, y);
+		}
 		for (int i = x, j = y; j < y + 2; j++)
 		{
 			if (direction == true)
@@ -277,6 +293,10 @@ void add_boat(char**& mas_player)
 		cin >> x;
 		cout << "Введите номер стрки: ";
 		cin >> y;
+		if (direction == false)
+		{
+			swap(x, y);
+		}
 		for (int i = x, j = y; j < y + 3; j++)
 		{
 			if (direction == true)
@@ -313,6 +333,10 @@ void add_boat(char**& mas_player)
 	cin >> x;
 	cout << "Введите номер стрки: ";
 	cin >> y;
+	if (direction == false)
+	{
+		swap(x, y);
+	}
 	for (int i = x, j = y; j < y + 4; j++)
 	{
 		if (direction == true)
@@ -339,7 +363,7 @@ void add_boat(char**& mas_player)
 		}
 	}
 }
-
+//проверка на победителя
 bool winer_check(char**& mas_player, char player_num)
 {
 	int counter = 0;
@@ -365,7 +389,7 @@ bool winer_check(char**& mas_player, char player_num)
 		return false;
 	}
 }
-
+//логика игры против компа
 void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_computer)
 {
 	int map_size = 11;
@@ -430,7 +454,7 @@ void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_comput
 		}
 	}
 }
-
+//логика игры 1на1
 void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_player_2, char**& mas_points_2)
 {
 	short int map_size = 11;
@@ -513,6 +537,23 @@ void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_pla
 		}
 	}
 }
+//очистка памяти(удаление динамических массивов)
+void map_delete(char**& d1, char**& d2, char**& d3, char**& d4, char**& d5, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		delete[] d1[i];
+		delete[] d2[i];
+		delete[] d3[i];
+		delete[] d4[i];
+		delete[] d5[i];
+	}
+	delete[] d1;
+	delete[] d2;
+	delete[] d3;
+	delete[] d4;
+	delete[] d5;
+}
 
 int main()
 {
@@ -552,6 +593,7 @@ int main()
 		cout << endl << "========== ИГРОК 2 ==========" << endl;
 		add_boat(mas_player_2);
 		start_game_1vs1(mas_player, mas_points, mas_player_2, mas_points_2);
+		map_delete(mas_player, mas_player_2, mas_computer, mas_points, mas_points_2, map_size);
 		return main();
 		break;
 	case 2:
@@ -561,21 +603,19 @@ int main()
 		computer_boat(mas_computer);
 		print_map(mas_player, mas_points, mas_computer, map_size);
 		start_game_vs_pc(mas_player, mas_points, mas_computer);
+		map_delete(mas_player, mas_player_2, mas_computer, mas_points, mas_points_2, map_size);
 		return main();
 		break;
 	case 0:
 		system("cls");
-		delete[] mas_player;
-		delete[] mas_player_2;
-		delete[] mas_computer;
-		delete[] mas_points;
-		delete[] mas_points_2;
+		map_delete(mas_player, mas_player_2, mas_computer, mas_points, mas_points_2, map_size);
 		cout << "=========             =========="
 			<< "========== Good bye! ==========="
 			<< "=========             ==========" << endl;
 		return 0;
 		break;
 	default:
+		return main();
 		return 0;
 		break;
 	}
