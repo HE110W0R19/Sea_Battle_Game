@@ -6,7 +6,7 @@
 
 using namespace std;
 random_device Rand;
-//заполнение карты
+//create map
 void create_map(char**& mas_player, char**& mas_points, char**& mas_computer, char**& mas_points_2, short int size)
 {
 	for (int i = 0; i < 1; i++)
@@ -38,10 +38,10 @@ void create_map(char**& mas_player, char**& mas_points, char**& mas_computer, ch
 		}
 	}
 }
-//вывод карты при игре с компом
+//print map with computer vs player
 void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, short int size)
 {
-	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	cout << "+-+-+- Your map -+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты
 	{
 		for (int j = 0; j < size; j++)
@@ -50,7 +50,7 @@ void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, sho
 		}
 		cout << endl;
 	}
-	cout << endl << "+-+-+- Карта попаданий -+-+-+" << endl;
+	cout << endl << "+-+-+- Hit map -+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты врага
 	{
 		for (int j = 0; j < size; j++)
@@ -60,7 +60,7 @@ void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, sho
 		cout << endl;
 	}
 	cout << endl;
-	cout << "Лодки врага(подсказка)" << endl;
+	cout << "Enemy boats(for test game)" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты врага
 	{
 		for (int j = 0; j < size; j++)
@@ -70,10 +70,10 @@ void print_map(char**& mas_player, char**& mas_points, char**& mas_computer, sho
 		cout << endl;
 	}
 }
-//вывод карты при добавлении лодок
+//print map with add boat
 void print_map(char**& mas_player, short int size)
 {
-	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	cout << "+-+-+- Your map-+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты
 	{
 		for (int j = 0; j < size; j++)
@@ -83,10 +83,10 @@ void print_map(char**& mas_player, short int size)
 		cout << endl;
 	}
 }
-//вывод карты при игре 1на1
+//print map at play with 1vs 1
 void print_map(char**& mas_player, char**& mas_points, short int size)
 {
-	cout << "+-+-+- Ваша карта -+-+-+" << endl;
+	cout << "+-+-+- Your map-+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты
 	{
 		for (int j = 0; j < size; j++)
@@ -95,7 +95,7 @@ void print_map(char**& mas_player, char**& mas_points, short int size)
 		}
 		cout << endl;
 	}
-	cout << endl << "+-+-+- Карта попаданий -+-+-+" << endl;
+	cout << endl << "+-+-+- Hit map-+-+-+" << endl;
 	for (int i = 0; i < size; i++) //Вывод карты врага
 	{
 		for (int j = 0; j < size; j++)
@@ -106,7 +106,7 @@ void print_map(char**& mas_player, char**& mas_points, short int size)
 	}
 	cout << endl;
 }
-//добавление лодок компа
+//computer add boats
 void computer_boat(char**& mas_computer)
 {
 	int x_comp = 0, y_comp = 0;
@@ -224,7 +224,7 @@ void computer_boat(char**& mas_computer)
 		}
 	}
 }
-//добавление лодок игрока
+//player add boats
 void add_boat(char**& mas_player)
 {
 	int x = 0, y = 0;
@@ -363,7 +363,7 @@ void add_boat(char**& mas_player)
 		}
 	}
 }
-//проверка на победителя
+//winner chech
 bool winer_check(char**& mas_player, char player_num)
 {
 	int counter = 0;
@@ -389,7 +389,7 @@ bool winer_check(char**& mas_player, char player_num)
 		return false;
 	}
 }
-//логика игры против компа
+//game logick vs PC
 void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_computer)
 {
 	int map_size = 11;
@@ -454,7 +454,7 @@ void start_game_vs_pc(char**& mas_player, char**& mas_points, char**& mas_comput
 		}
 	}
 }
-//логика игры 1на1
+//game logick 1 vs 1
 void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_player_2, char**& mas_points_2)
 {
 	short int map_size = 11;
@@ -537,7 +537,7 @@ void start_game_1vs1(char**& mas_player_1, char**& mas_points_1, char**& mas_pla
 		}
 	}
 }
-//очистка памяти(удаление динамических массивов)
+//clear memory
 void map_delete(char**& d1, char**& d2, char**& d3, char**& d4, char**& d5, int size)
 {
 	for (int i = 0; i < size; i++)
